@@ -28,6 +28,8 @@ module "redis" {
   maxmemory_policy   = "ALLKEYS_LRU"
   resource_preset_id = "hm3-c8-m128"
   disk_size          = 256
+  assign_public_ip   = true
+  tls_enabled        = true
 
   hosts = {
     host1 = {

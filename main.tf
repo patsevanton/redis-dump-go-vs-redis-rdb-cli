@@ -27,7 +27,7 @@ module "redis" {
   password           = "secretpassword"
   maxmemory_policy   = "ALLKEYS_LRU"
   resource_preset_id = "hm3-c8-m128"
-  disk_size          = 128
+  disk_size          = 256
 
   hosts = {
     host1 = {

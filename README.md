@@ -13,7 +13,7 @@
 **Методология тестирования**
 
 ```shell
-export YC_FOLDER_ID='b1gts6lhpg0oskqf7v32'
+export YC_FOLDER_ID='ваш_folder_id'
 terraform init
 terraform apply
 ```

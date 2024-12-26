@@ -18,7 +18,7 @@ module "network" {
 }
 
 module "redis" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-redis.git?ref=zone-subnet-id"
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-redis.git?ref=main"
 
   name               = "redis"
   folder_id          = data.yandex_client_config.client.folder_id

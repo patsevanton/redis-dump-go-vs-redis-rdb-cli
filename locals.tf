@@ -1,3 +1,0 @@
-locals {
-  folder_id = ""
-}

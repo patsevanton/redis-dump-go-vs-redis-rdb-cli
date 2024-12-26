@@ -12,10 +12,9 @@ module "network" {
 
   azs = ["ru-central1-a"]
 
-  private_subnets = [["10.10.0.0/24"]]
+  public_subnets = [["10.10.0.0/24"]]
 
   create_vpc         = true
-  create_nat_gateway = true
 }
 
 module "redis" {
@@ -34,7 +33,7 @@ module "redis" {
   hosts = {
     host1 = {
       zone      = "ru-central1-a"
-      subnet_id = module.network.private_subnets_ids[0]
+      subnet_id = module.network.public_subnets_ids[0]
     }
   }
 

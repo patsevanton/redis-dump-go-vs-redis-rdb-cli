@@ -18,6 +18,15 @@ terraform init
 terraform apply
 ```
 
+Установка и запуск генерации redis ключей
+```shell
+wget https://github.com/redis-performance/redis-benchmark-go/releases/download/v1.0.3/redis-benchmark-go-linux-amd64.tar.gz
+tar zxvf redis-benchmark-go-linux-amd64.tar.gz
+sudo mv redis-benchmark-go /usr/local/bin/
+redis-benchmark-go -h c-id.rw.mdb.yandexcloud.net -p 6379 -a secretpassword -c 50 -n 1000000 -r 1000000 -cmd "SET __key__ __value__" -cmd-ratio 1
+time redis-benchmark-go -h c-id.rw.mdb.yandexcloud.net -p 6379 -a secretpassword -c 200 -n 5000 -r 1000000 -cmd "SET __key__ __value__" -cmd-ratio 1
+```
+
 Тестовое окружение включало Redis с 100 млн ключей, сгенерированных с помощью redis-benchmark-go. Критериями сравнения стали скорость выполнения операций бекапа и восстановления, удобство использования, поддержка различных форматов данных и совместимость с разными версиями Redis.
 
 **Результаты тестирования**

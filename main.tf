@@ -11,9 +11,7 @@ module "network" {
   }
 
   azs = ["ru-central1-a"]
-
-  public_subnets = [["10.10.0.0/24"]]
-
+  private_subnets = [["10.10.0.0/24"]]
   create_vpc         = true
 }
 
@@ -33,8 +31,44 @@ module "redis" {
   hosts = {
     host1 = {
       zone      = "ru-central1-a"
-      subnet_id = module.network.public_subnets_ids[0]
+      subnet_id = module.network.private_subnets_ids[0]
     }
   }
 
+}
+
+module "yandex_compute_instance" {
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-instance.git?ref=v1.0.0"
+
+  folder_id = data.yandex_client_config.client.folder_id
+
+  name         = "my-instance"
+  description  = "Test instance"
+  image_family = "ubuntu-2204-lts"
+
+  zone                      = "ru-central1-a"
+  subnet_id                 = module.network.private_subnets_ids[0]
+  enable_nat                = true
+  create_pip                = true
+
+  cores         = 4
+  memory        = 8
+
+  hostname                  = "my-instance"
+  allow_stopping_for_update = true
+  generate_ssh_key          = false
+  ssh_user                  = "ubuntu"
+  ssh_pubkey                = "~/.ssh/id_rsa.pub"
+
+  boot_disk = {
+    auto_delete = true
+    device_name = "boot-disk"
+    mode        = "READ_WRITE"
+  }
+
+  boot_disk_initialize_params = {
+    size       = 65
+    block_size = 4096
+    type       = "network-ssd"
+  }
 }
